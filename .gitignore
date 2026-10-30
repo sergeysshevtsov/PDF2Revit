@@ -1,0 +1,9 @@
+bin/
+obj/
+.vs/
+.git/
+.user
+*.user
+*.csproj.user
+ModelExporter.bundle/
+packages/

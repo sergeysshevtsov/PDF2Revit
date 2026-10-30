@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+	<AddIn Type="Application">
+		<Name>PDF2Revit</Name>
+		<Assembly>.\PDF2Revit\PDF2Revit.dll</Assembly>
+		<AddInId>d7fe1983-8f10-6195-98e2-c3cc332fc589</AddInId>
+		<FullClassName>PDF2Revit.Application</FullClassName>
+		<Description>PDF2Revit</Description>
+		<VendorId>SHSS</VendorId>
+		<VendorDescription>Sergey Shevtsov</VendorDescription>
+	</AddIn>
+</RevitAddIns>

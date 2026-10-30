@@ -1,0 +1,204 @@
+<Window
+    x:Class="PDF2Revit.UI.Views.GenerateWallsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="PDF to Revit - Generate Walls"
+    Width="510"
+    Height="750"
+    MinWidth="450"
+    WindowStartupLocation="CenterScreen"
+    ResizeMode="CanResize"
+    ShowInTaskbar="False"
+    Background="{DynamicResource WindowSurface}">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/WindowStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <DockPanel Margin="20">
+        <StackPanel DockPanel.Dock="Top" Margin="2,0,0,16">
+            <TextBlock Text="Generate walls from PDF" Style="{StaticResource DialogHeading}"/>
+            <TextBlock Text="Choose your PDF, wall constraints and placement settings."
+                       Style="{StaticResource HelpText}" Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <!-- Bottom buttons -->
+        <StackPanel
+            DockPanel.Dock="Bottom"
+            Orientation="Horizontal"
+            HorizontalAlignment="Right"
+            Margin="0,10,0,0">
+
+            <Button
+                Content="Cancel"
+                Command="{Binding CancelCommand}"
+                Width="90"
+                Height="32"
+                Margin="0,0,8,0"
+                IsCancel="True" />
+
+            <Button
+                Content="Generate Walls"
+                Command="{Binding GenerateCommand}"
+                Width="130"
+                Height="32"
+                IsDefault="True" />
+        </StackPanel>
+
+        <ScrollViewer
+            VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+
+                <!-- PDF -->
+                <GroupBox
+                    Header="Source PDF">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition
+                                Width="*" />
+                            <ColumnDefinition
+                                Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox
+                            Text="{Binding PdfFilePath}"
+                            IsReadOnly="True"
+                            Margin="0,4,8,0" />
+
+                        <Button
+                            Grid.Column="1"
+                            Content="Browse..."
+                            Command="{Binding BrowseCommand}"
+                            Width="85"
+                            Height="28"
+                            Margin="0,4,0,0" />
+                    </Grid>
+                </GroupBox>
+
+                <!-- Wall Geometry -->
+                <GroupBox
+                    Header="Wall Geometry">
+                    <StackPanel>
+
+                        <TextBlock
+                            Text="Base Level" />
+
+                        <ComboBox
+                            ItemsSource="{Binding Levels}"
+                            SelectedItem="{Binding SelectedBaseLevel}"
+                            DisplayMemberPath="Name" />
+
+                        <TextBlock
+                            Text="Wall Height" />
+
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Margin="0,6,0,6">
+
+                            <RadioButton
+                                Content="Unconnected"
+                                GroupName="HeightMode"
+                                IsChecked="{Binding IsUnconnected}"
+                                Margin="0,0,20,0" />
+
+                            <RadioButton
+                                Content="Up to Level"
+                                GroupName="HeightMode"
+                                IsChecked="{Binding IsUpToLevel}" />
+                        </StackPanel>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition
+                                    Width="*" />
+                                <ColumnDefinition
+                                    Width="65" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                Text="{Binding WallHeightText,
+                                  UpdateSourceTrigger=PropertyChanged}"
+                                IsEnabled="{Binding IsUnconnected}" />
+
+                            <TextBlock
+                                Grid.Column="1"
+                                Text="mm"
+                                HorizontalAlignment="Center" />
+                        </Grid>
+
+                        <TextBlock
+                            Text="Top Level" />
+
+                        <ComboBox
+                            ItemsSource="{Binding AvailableTopLevels}"
+                            SelectedItem="{Binding SelectedTopLevel}"
+                            DisplayMemberPath="Name"
+                            IsEnabled="{Binding IsUpToLevel}" />
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- Scale -->
+                <GroupBox
+                    Header="PDF Scale">
+                    <StackPanel>
+
+                        <TextBlock
+                            Text="Drawing Scale" />
+
+                        <ComboBox
+                            ItemsSource="{Binding ScaleOptions}"
+                            SelectedItem="{Binding SelectedScale}"
+                            DisplayMemberPath="Name" />
+
+                        <TextBlock
+                            Style="{StaticResource HelpText}"
+                            Text="The selected drawing scale is used to convert PDF coordinates to model units." />
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- Wall Type -->
+                <GroupBox
+                    Header="Wall Type">
+                    <StackPanel>
+
+                        <TextBlock
+                            Text="Default Wall Type" />
+
+                        <ComboBox
+                            ItemsSource="{Binding WallTypes}"
+                            SelectedItem="{Binding SelectedWallType}"
+                            DisplayMemberPath="Name" />
+
+                        <TextBlock
+                            Text="All detected walls will initially use this type."
+                            Style="{StaticResource HelpText}" />
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- Placement -->
+                <GroupBox
+                    Header="Placement">
+                    <StackPanel>
+
+                        <RadioButton
+                            Content="Pick insertion point in Revit"
+                            GroupName="Placement"
+                            IsChecked="{Binding IsPickPoint}"
+                            Margin="0,4,0,8" />
+
+                        <RadioButton
+                            Content="Use Revit internal origin"
+                            GroupName="Placement"
+                            IsChecked="{Binding IsInternalOrigin}"
+                            Margin="0,0,0,4" />
+                    </StackPanel>
+                </GroupBox>
+
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

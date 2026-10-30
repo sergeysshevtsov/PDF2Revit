@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="PDF2Revit/PDF2Revit.csproj">
+    <BuildType Solution="Debug|*" Project="Debug R23" />
+  </Project>
+</Solution>
